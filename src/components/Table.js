@@ -1,5 +1,8 @@
 import React from 'react'
 import { useTable, usePagination, useRowSelect } from 'react-table'
+import { useDispatch } from 'react-redux'
+import { requestIDActions } from '../store/requestIDSlice'
+import { getSelected } from '../utils/tableHelper'
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -37,7 +40,7 @@ export default function Table({ columns, data }) {
     nextPage,
     previousPage,
     setPageSize,
-    selectedFlatRows,
+    // selectedFlatRows,
     state: { pageIndex, pageSize, selectedRowIds },
   } = useTable(
     {
@@ -71,7 +74,9 @@ export default function Table({ columns, data }) {
     }
   )
 
-  console.log(selectedRowIds)
+  const dispatch = useDispatch()
+  const selectedData = getSelected(data, selectedRowIds)
+  dispatch(requestIDActions.updateSelected(selectedData))
 
   // Render the UI for your table
   return (
