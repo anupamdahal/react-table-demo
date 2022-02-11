@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from "react-redux"
 import { requestIDActions } from "../store/requestIDSlice"
 
 const ClearButton = () => {
-  const requestID = useSelector(state => state.requestID)
+  const dispatch = useDispatch()
+  const selector = useSelector()
 
   const onClickHandler = () => {
+    const requestID = selector(state => state.requestID)
     const activeID = difference(requestID.active, requestID.selected)
-    useDispatch(requestIDActions.updateActive(activeID))
-    useDispatch(requestIDActions.updateSelected([]))
+    dispatch(requestIDActions.updateActive(activeID))
+    dispatch(requestIDActions.updateSelected([]))
   }
 
   return (

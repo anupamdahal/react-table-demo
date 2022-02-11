@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTable, usePagination, useRowSelect } from 'react-table'
 import { useDispatch } from 'react-redux'
-import { requestIDActions } from '../store/requestIDSlice'
-import { getSelected } from '../utils/tableHelper'
+import { requestIDActions } from '../../store/requestIDSlice'
+import { getSelected } from '../../utils/tableHelper'
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {

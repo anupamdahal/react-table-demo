@@ -11,11 +11,11 @@ const requestIDSlice = createSlice({
   name: 'requestID',
   initialState,
   reducers: {
-    updateSelected(state, action) {
-      state.selected = [...action.ids]
+    updateSelected(state, payload) {
+      state.selected = [...payload.ids]
     },
-    updateActive(state, action){
-      state.active = [...action.active]
+    updateActive(state, payload){
+      state.active = [...payload.active]
     }
   }
 })
