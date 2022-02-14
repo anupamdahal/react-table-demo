@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { requestColumn } from "../components/Table/Colums"
+import { statusColumn } from "../components/Table/Colums"
 
 const initialState = {
-  column : requestColumn,
+  column : statusColumn,
   data : []
 }
 
@@ -10,11 +10,11 @@ const tableDataSlice = createSlice({
   name: 'tableData',
   initialState,
   reducers: {
-    updateColumn (state, payload){
-      state.column = payload.column
+    updateColumn (state, action){
+      state.column = action.payload
     },
-    updateData (state, payload){
-      state.data = payload.data
+    updateData (state, action){
+      state.data = action.payload
     }
   }
 })

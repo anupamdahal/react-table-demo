@@ -18,7 +18,6 @@ const ClearButton = () => {
       Clear
     </button>
   )
-
 }
 
 export default ClearButton
