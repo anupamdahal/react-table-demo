@@ -1,55 +1,82 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Dialog, DialogContent } from '@mui/material'
 
 import Styles from '../../styles/Styles'
 import Table from './Table'
 
-import { ids, key } from '../../getData/metadata'
 import { getStatus } from '../../getData'
 import { useDispatch, useSelector } from 'react-redux'
 import { tableDataActions } from '../../store/tableDataSlice'
+import ClearButton from '../ClearButton'
+import { statusColumn, resultColumn } from './Colums'
+import CloseButton from '../CloseButton'
+import useInterval from '../../hooks/UseInterval'
+import { interval } from '../../getData/metadata'
 
 const TableContainer = () => {
 
+  const [delay, setDelay] = useState(interval)
+
+
   const dispatch = useDispatch();
-  const tableData = useSelector(state => state.tableData);
 
-  const data = React.useMemo(() => tableData.data, [tableData.data])
-  const column = React.useMemo(() => tableData.column, [tableData.column])
+  const activeIDs = useSelector(state => state.requestID.active)
+  const activeIDSet = new Set(activeIDs)
 
-  const [requestId, setRequestIds] = useState(ids)
+  //status table data
+  const data = useSelector(state => state.tableData.data)
+
+  //result table data
+  const open = useSelector(state => state.result.open)
+  const results = useSelector(state => state.result.data)
+
   const fetchData = async () => {
-    const storedIds = JSON.parse(localStorage.getItem(key))
-    if(storedIds){
-      setRequestIds(state => [...storedIds])
-    }else{
-      localStorage.setItem(key, JSON.stringify(ids))
-      setRequestIds(state => [...ids])
-    }
-    
-    const [res, error] = await getStatus(requestId)
+    const [res, error] = await getStatus(activeIDs)
     if(error) return null
     dispatch(tableDataActions.updateData(res))
   }
 
   useEffect(() => {
+    const filteredData = data.filter(item => activeIDSet.has(item.request_id))
+    dispatch(tableDataActions.updateData(filteredData))
+  }, [activeIDs])
+
+  useEffect(() => {
+    console.log('USE EFFECT')
     fetchData()
-    // const pollStatus = setInterval(() => {
-    //   if(!data) {
-    //     const storedIds = JSON.parse(localStorage.getItem(key))
-    //     if(storedIds?.length === 0) clearInterval(pollStatus)
-    //   }
-    //   const allSuccess = data.some(obj => obj.status !== 'success')
-    //   if(allSuccess) clearInterval(pollStatus)
-    //   fetchData()
-    // }, 5000)
   }, [])
 
+  useInterval(() => {
+    const allSuccess = data.every(item => item.status === "success")
+    if(!allSuccess) fetchData() 
+    else setDelay(null)
+  }, delay)
+
   return (
-    <Styles>
-      <p>Random Message</p>
-      <Table columns={column} data={React.useMemo(() => data, [data])} />
-    </Styles>
+    <div>
+      <Styles>
+        <Table
+          columns={statusColumn}
+          data={React.useMemo(() => data, [data])}
+
+        />
+      </Styles>
+      <ClearButton />
+      <Dialog
+        open={open}
+      >
+        <DialogContent>
+          <CloseButton />
+          <Styles>
+            <Table 
+              columns={resultColumn}
+              data={React.useMemo(() => results, [results])}
+              selector={false}
+            />
+          </Styles>
+        </DialogContent>
+      </Dialog>
+    </div>
   )
 }
 

@@ -1,32 +1,28 @@
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
-
-import { useState } from "react"
 import { getResult } from "../getData"
+import { useDispatch } from "react-redux"
 
-import Table from './Table/Table';
-import { resultColumn } from "./Table/Colums"
-
+import { resultAction } from '../store/resultSlice'
 
 const ViewButton = (props) => {
 
-  const [data, setData] = useState([])
-  
-  const handler = (tableProps) => {
-    const requestId = tableProps.data[tableProps.row.index].request_id
-    const [content, error] = getResult(requestId)
+  const dispatch = useDispatch()
+  const handler = async ({ props }) => {
+
+    const requestId = props.data[props.row.index].request_id
+    const [content, error] = await getResult(requestId)
+
+    console.log(content, error)
     
     if(error) return
-    setData(state => content)
+    dispatch(resultAction.updateData(content.result.dataValues))
+    dispatch(resultAction.toggleOpen())
   }
 
   return (
     <button
       onClick={() => handler(props)}
     >
-      <Popup trigger={<button> Trigger</button>} position="right center">
-        <Table columns={resultColumn} data={data}/>
-      </Popup>
+     View
     </button>
   )
 }

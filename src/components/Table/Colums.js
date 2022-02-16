@@ -25,8 +25,8 @@ const statusColumn = [
     Header: 'View',
     id: 'view',
     accessor: 'view',
-    Cell: () => <div>Hi</div>
-  }
+    Cell: (tableProps) => <ViewButton props={tableProps} />
+  },
 ]
 
 const resultColumn = [
@@ -35,12 +35,8 @@ const resultColumn = [
     accessor: "period",
   },
   {
-    Header: "Org",
-    accessor: "org",
-  },
-  {
-    Header: "Unit",
-    accessor: "unit",
+    Header: "Org Unit",
+    accessor: "orgUnit",
   },
   {
     Header: "Value",

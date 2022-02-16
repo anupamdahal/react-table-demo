@@ -2,13 +2,15 @@ import { difference } from "lodash"
 import { useSelector, useDispatch } from "react-redux"
 import { requestIDActions } from "../store/requestIDSlice"
 
+import { key } from "../getData/metadata"
+
 const ClearButton = () => {
   const dispatch = useDispatch()
-  const selector = useSelector()
+  const requestID = useSelector(state => state.requestID)
 
   const onClickHandler = () => {
-    const requestID = selector(state => state.requestID)
     const activeID = difference(requestID.active, requestID.selected)
+    localStorage.setItem(key, JSON.stringify(activeID))
     dispatch(requestIDActions.updateActive(activeID))
     dispatch(requestIDActions.updateSelected([]))
   }

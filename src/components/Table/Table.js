@@ -1,8 +1,9 @@
 import React from 'react'
 import { useTable, usePagination, useRowSelect } from 'react-table'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { requestIDActions } from '../../store/requestIDSlice'
 import { getSelected } from '../../utils/tableHelper'
+import useUpdateEffect from '../../hooks/UseUpdateEffect'
 
 const IndeterminateCheckbox = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
@@ -21,8 +22,16 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 )
 
-export default function Table({ columns, data }) {
+export default function Table({ columns, data, selector=true }) {
   // Use the state and functions returned from useTable to build your UI
+  const checked = new Set(useSelector(state => state.requestID.selected))
+  const dispatch = useDispatch()
+
+  const initialState = {selectedRowIds: {}, autoResetSelectedRows: false}
+  data.forEach((item, index) => {
+    initialState.selectedRowIds[index] = checked.has(item.request_id)
+  })
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -46,11 +55,12 @@ export default function Table({ columns, data }) {
     {
       columns,
       data,
+      initialState,
     },
     usePagination,
     useRowSelect,
     hooks => {
-      hooks.visibleColumns.push(columns => [
+      selector && hooks.visibleColumns.push(columns => [
         // Let's make a column for selection
         {
           id: 'selection',
@@ -74,9 +84,11 @@ export default function Table({ columns, data }) {
     }
   )
 
-  const dispatch = useDispatch()
-  const selectedData = getSelected(data, selectedRowIds)
-  dispatch(requestIDActions.updateSelected(selectedData))
+  //selected results
+  useUpdateEffect(() => {
+    const selectedData = getSelected(data, selectedRowIds)
+    dispatch(requestIDActions.updateSelected([...selectedData]))
+  }, [selectedRowIds])
 
   // Render the UI for your table
   return (
