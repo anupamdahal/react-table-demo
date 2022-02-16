@@ -3,7 +3,7 @@ const safeResolve = async (callback) => {
     const data = await callback;
     return [data, null]
   }catch (error){
-    console.log(error)
+    console.error(error)
     return [null, error]
   }
 }

@@ -10,8 +10,6 @@ const ViewButton = (props) => {
 
     const requestId = props.data[props.row.index].request_id
     const [content, error] = await getResult(requestId)
-
-    console.log(content, error)
     
     if(error) return
     dispatch(resultAction.updateData(content.result.dataValues))

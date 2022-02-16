@@ -17,7 +17,6 @@ const TableContainer = () => {
 
   const [delay, setDelay] = useState(interval)
 
-
   const dispatch = useDispatch();
 
   const activeIDs = useSelector(state => state.requestID.active)
@@ -42,7 +41,6 @@ const TableContainer = () => {
   }, [activeIDs])
 
   useEffect(() => {
-    console.log('USE EFFECT')
     fetchData()
   }, [])
 
