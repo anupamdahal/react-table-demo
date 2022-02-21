@@ -2,7 +2,7 @@ import { difference } from "lodash"
 import { useSelector, useDispatch } from "react-redux"
 import { requestIDActions } from "../store/requestIDSlice"
 
-import { key } from "../getData/metadata"
+import { key } from "../Data/metadata"
 
 const ClearButton = () => {
   const dispatch = useDispatch()

@@ -1,4 +1,4 @@
-import { getResult } from "../getData"
+import { getResult } from "../Data"
 import { useDispatch } from "react-redux"
 
 import { resultAction } from '../store/resultSlice'

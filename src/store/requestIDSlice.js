@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { ids, key } from "../getData/metadata"
+import { ids, key } from "../Data/metadata"
 
 const getActive = () => {
   const stored = JSON.parse(localStorage.getItem(key))
