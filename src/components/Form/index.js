@@ -22,8 +22,14 @@ import moment from "moment";
 const Form = () => {
 
   const [formValues, setFormValues] = useState(formInputObject(defaultFormValues))
-  const [startDate, setStartDate] = useState(null)
-  const [endDate, setEndDate] = useState(null)
+  const [startDate, setStartDate] = useState({
+    raw: null,
+    date: null,
+  })
+  const [endDate, setEndDate] = useState({
+    raw: null,
+    date: null,
+  })
   
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -42,8 +48,8 @@ const Form = () => {
 
     const req = {
       ...formValues,
-      start_date: startDate,
-      end_date: endDate,
+      start_date: startDate.date,
+      end_date: endDate.date,
     }
     
     if(Object.values(req).some(val => !val)){
@@ -73,7 +79,7 @@ const Form = () => {
               <FormControl>
                 <Select
                   name={key}
-                  value={formOptions[key][0]}
+                  value={formValues[key]}
                   onChange={handleInputChange}
                 >
                   {
@@ -91,14 +97,20 @@ const Form = () => {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="start date"
-              value={startDate}
-              onChange={(date) => setStartDate(moment(date).format('YYYY-MM-DD'))}
+              value={startDate.raw}
+              onChange={(date) => setStartDate({
+                raw: date,
+                date: moment(date).format('YYYY-MM-DD')
+              })}
               renderInput={(params) => <TextField {...params} />}
             />
             <DatePicker
               label="end date"
-              value={endDate}
-              onChange={(date) => setEndDate(moment(date).format('YYYY-MM-DD'))}
+              value={endDate.raw}
+              onChange={date => setEndDate({
+                raw: date,
+                date: moment(date).format('YYYY-MM-DD')
+              })}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>

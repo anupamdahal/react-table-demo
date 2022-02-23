@@ -4,7 +4,7 @@ import { safeResolve } from "../utils/errorHandler"
 
 const getStatus = async (ids) => {
   const body = {
-    [key] : ids
+    [key] : Array.isArray(ids) ? ids : [ids]
   }
   return safeResolve(requestData(getStatusURI, body))
 }
@@ -17,8 +17,6 @@ const getResult = async (id) => {
 }
 
 const startCloudWorkflow = async (payload) => {
-  // console.log(JSON.stringify(payload))
-  console.log(payload)
   return safeResolve(requestData(startCloudWorkflowURL, payload))
 }
 
