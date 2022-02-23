@@ -4,14 +4,14 @@ import { Dialog, DialogContent } from '@mui/material'
 import Styles from '../../styles/Styles'
 import Table from './Table'
 
-import { getStatus } from '../../Data'
+import { getStatus } from '../../data'
 import { useDispatch, useSelector } from 'react-redux'
 import { tableDataActions } from '../../store/tableDataSlice'
 import ClearButton from '../ClearButton'
 import { statusColumn, resultColumn } from './Columns'
 import CloseButton from '../CloseButton'
 import useInterval from '../../hooks/UseInterval'
-import { interval } from '../../Data/metadata'
+import { interval } from '../../data/metadata'
 
 const TableContainer = () => {
 

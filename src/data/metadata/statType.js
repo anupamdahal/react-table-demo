@@ -1,0 +1,1 @@
+export const MEAN = 'mean'

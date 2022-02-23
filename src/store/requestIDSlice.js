@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { ids, key } from "../data/metadata"
+import { key } from "../data/metadata"
 
 const getActive = () => {
   const stored = JSON.parse(localStorage.getItem(key))
-  const requestIDs = stored?.length ? stored : ids
+  const requestIDs = stored?.length ? stored : []
   localStorage.setItem(key, JSON.stringify(requestIDs))
   return requestIDs
 }

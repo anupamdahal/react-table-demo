@@ -1,8 +1,25 @@
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom'
+
 import TableContainer from "./components/Table/TableContainer"
+import Form from "./components/Form"
+
+import { HOME_PATH, TABLE_PATH } from './data/routes'
 
 const App = () => {
   return(
-    <TableContainer/>
+    <Router>
+      {console.log('bye')}
+      <Routes>
+        <Route
+          exact path={HOME_PATH}
+          element={<Form />}
+        />
+        <Route
+          exact path={TABLE_PATH}
+          element={<TableContainer />}
+        /> 
+      </Routes>
+    </Router>
   )
 }
 

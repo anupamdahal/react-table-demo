@@ -85,4 +85,12 @@ const organizationUnits = [
   }
 ]
 
-export default organizationUnits
+const orgUnitsMap = {
+  National: 1,
+  District: 2,
+  Chiefdom: 3,
+}
+
+const enumOrgUnits = Object.keys(orgUnitsMap)
+
+export { organizationUnits, orgUnitsMap, enumOrgUnits }
