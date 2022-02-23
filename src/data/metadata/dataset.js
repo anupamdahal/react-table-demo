@@ -1,5 +1,5 @@
 const userStore = {
-  dhis_dist_version : "guinea_2",
+  dhis_dist_version : "guinea_1",
   vegetationDataElementId : "bUBLqMJTkp4",
   temperatureDataElementId : "afWPpfBwIaa",
   precipitationDataElementId : "oYJ51K7AJvQ"
@@ -27,18 +27,18 @@ const temperatureData = {
   y_start_stride_stop: '',
 }
 
-export const PRECIPATION = 'precipation'
+export const PRECIPITATION = 'precipitation'
 export const TEMPERATURE = 'temperature'
 export const VEGETATION = 'vegetation'
 
 export const enumDatasets = [
-  PRECIPATION,
+  PRECIPITATION,
   TEMPERATURE,
   VEGETATION
 ]
 
 export const datasets = {
-  [PRECIPATION]: precipitationData,
+  [PRECIPITATION]: precipitationData,
   [TEMPERATURE]: temperatureData,
   [VEGETATION]: vegetationData,
 } 

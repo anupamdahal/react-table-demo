@@ -17,6 +17,8 @@ const getResult = async (id) => {
 }
 
 const startCloudWorkflow = async (payload) => {
+  // console.log(JSON.stringify(payload))
+  console.log(payload)
   return safeResolve(requestData(startCloudWorkflowURL, payload))
 }
 
