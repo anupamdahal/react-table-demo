@@ -16,7 +16,7 @@ import DatePicker from "@mui/lab/DatePicker";
 import { formInputObject, apiRequestObject } from "../../data/payload";
 import { startCloudWorkflow } from "../../data";
 import { TABLE_PATH } from "../../data/routes";
-import { formOptions, defaultFormValues, orgUnitsMap } from '../../data/metadata'
+import { formOptions, defaultFormValues, orgUnitsMap, key } from '../../data/metadata'
 import moment from "moment";
 
 const Form = () => {
@@ -42,6 +42,12 @@ const Form = () => {
       [name]: value,
     });
   }
+
+  const handleResponse = ([res, error]) => {
+    if (error) return
+    dispatch(requestIDActions.updateActive([res[key]]))
+    navigate(TABLE_PATH)
+  }
   
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -63,12 +69,9 @@ const Form = () => {
     }
     
     const payload = apiRequestObject(req)
-    const [res, error] = await startCloudWorkflow(payload)
-    console.log(res)
-    if (error) return
-    dispatch(requestIDActions.updateActive([res]))
-    navigate(TABLE_PATH)
-  };
+    const res = await startCloudWorkflow(payload)
+    handleResponse(res)
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -120,5 +123,6 @@ const Form = () => {
       </Grid>
     </form>
   );
-};
+}
+
 export default Form;
