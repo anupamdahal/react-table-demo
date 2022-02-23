@@ -3,7 +3,6 @@ import { key, getResultURI, getStatusURI, startCloudWorkflowURL } from './metada
 import { safeResolve } from "../utils/errorHandler"
 
 const getStatus = async (ids) => {
-  console.log(ids)
   const body = {
     [key] : Array.isArray(ids) ? ids : [ids]
   }
