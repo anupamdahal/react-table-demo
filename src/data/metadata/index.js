@@ -9,7 +9,6 @@ const ids = ["1HRUq2kEQQ", "bjAwLPMPwd", "dk00foKRqP", "DB27ynegt9", "NSYq1WYfKM
 
 const startCloudWorkflowURL = 'https://9t06h5m4bf.execute-api.us-east-1.amazonaws.com/default/start_cloud_workflow' 
 const baseURL = "https://n9uowbutv1.execute-api.us-east-1.amazonaws.com/default"
-// const baseURL = startCloudWorkflowURL
 const getStatusURI = `${baseURL}/get_status`
 const getResultURI = `${baseURL}/get_result`
 const interval = 5000

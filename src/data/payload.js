@@ -24,7 +24,6 @@ const apiRequestObject = ({
   stat_type=MEAN,
   dhis_dist_version=userStore.dhis_dist_version,
 }) => {
-  console.log(userStore,`${dataset}DataElementId`)
   return {
     ...formInputObject({
       dataset,
