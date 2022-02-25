@@ -85,11 +85,13 @@ const organizationUnits = [
   }
 ]
 
-const orgUnitsMap = {
-  National: 1,
-  District: 2,
-  Chiefdom: 3,
-}
+const orgUnitsMap = (() => {
+  const orgMap = {}
+  organizationUnits.forEach(item => {
+    orgMap[item.name] = item.level
+  })
+  return orgMap
+})()
 
 const enumOrgUnits = Object.keys(orgUnitsMap)
 

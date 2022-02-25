@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router"
 import { useDispatch } from "react-redux";
 import { requestIDActions } from '../../store/requestIDSlice'
@@ -12,20 +12,29 @@ import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
+import moment from "moment";
 
 import { formInputObject, apiRequestObject } from "../../data/payload";
 import { startCloudWorkflow } from "../../data";
 import { TABLE_PATH } from "../../data/routes";
-import { formOptions, defaultFormValues, orgUnitsMap, key } from '../../data/metadata'
-import moment from "moment";
+import {
+  formOptions,
+  defaultFormValues,
+  key,
+  orgUnitsMap,
+  DISTRICT
+} from '../../data/metadata'
+import { pushActiveIDs } from '../../utils/requestIDHelper'
 
 const Form = () => {
 
   const [formValues, setFormValues] = useState(formInputObject(defaultFormValues))
+  
   const [startDate, setStartDate] = useState({
     raw: null,
     date: null,
   })
+  
   const [endDate, setEndDate] = useState({
     raw: null,
     date: null,
@@ -35,7 +44,6 @@ const Form = () => {
   const dispatch = useDispatch()
   
   const handleInputChange = (e) => {
-    console.log(e)
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
@@ -45,7 +53,8 @@ const Form = () => {
 
   const handleResponse = ([res, error]) => {
     if (error) return
-    dispatch(requestIDActions.updateActive([res[key]]))
+    pushActiveIDs([res[key]])
+    dispatch(requestIDActions.addIds([res[key]]))
     navigate(TABLE_PATH)
   }
   
@@ -63,7 +72,7 @@ const Form = () => {
       return
     }
 
-    if(req.org_unit !== 'District'){
+    if(req.org_unit !== DISTRICT){
       console.log(req)
       return
     }
@@ -72,6 +81,11 @@ const Form = () => {
     const res = await startCloudWorkflow(payload)
     handleResponse(res)
   }
+
+  useEffect(() => {
+    const level = orgUnitsMap[formValues.org_unit]
+    console.log(`Level ${level}`)
+  }, [formValues.org_unit])
 
   return (
     <form onSubmit={handleSubmit}>
@@ -87,7 +101,10 @@ const Form = () => {
                 >
                   {
                     formOptions[key].map(item => (
-                      <MenuItem key={item} value={item}>
+                      <MenuItem
+                        key={item}
+                        value={item}
+                      >
                         {item}
                       </MenuItem>
                     ))  

@@ -8,8 +8,9 @@ const ClearButton = () => {
   const dispatch = useDispatch()
   const requestID = useSelector(state => state.requestID)
 
-  const onClickHandler = () => {
+  const onClickHandler = async () => {
     const activeID = difference(requestID.active, requestID.selected)
+    requestID.selected.forEach(id => alert(`Deleting row with id ${id}`))
     localStorage.setItem(key, JSON.stringify(activeID))
     dispatch(requestIDActions.updateActive(activeID))
     dispatch(requestIDActions.updateSelected([]))

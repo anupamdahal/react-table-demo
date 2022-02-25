@@ -1,14 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { key } from "../data/metadata"
+import { getActiveIDs } from "../utils/requestIDHelper"
 
-const getActive = () => {
-  const stored = JSON.parse(localStorage.getItem(key))
-  const requestIDs = stored?.length ? stored : []
-  localStorage.setItem(key, JSON.stringify(requestIDs))
-  return requestIDs
-}
 const initialState = {
-  active: getActive(),
+  active: getActiveIDs(),
   selected: []
 }
 
@@ -20,7 +14,11 @@ const requestIDSlice = createSlice({
       state.selected = action.payload
     },
     updateActive(state, action){
+      console.log(action)
       state.active = action.payload
+    },
+    addIds(state, action){
+      state.active = [...state.active, ...action.payload]
     }
   }
 })

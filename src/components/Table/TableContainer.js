@@ -11,7 +11,7 @@ import ClearButton from '../ClearButton'
 import { statusColumn, resultColumn } from './Columns'
 import CloseButton from '../CloseButton'
 import useInterval from '../../hooks/UseInterval'
-import { interval } from '../../data/metadata'
+import { interval, SUCCESS } from '../../data/metadata'
 
 const TableContainer = () => {
 
@@ -33,6 +33,15 @@ const TableContainer = () => {
     const [res, error] = await getStatus(activeIDs)
     if(error) return null
     dispatch(tableDataActions.updateData(res))
+    
+    res.forEach((element, index) => {
+      if(
+        element?.status === SUCCESS &&
+        (!data || data[index]?.status !== SUCCESS)
+      ){
+        alert(`${element.request_id} - ${SUCCESS}`)
+      }
+    })
   }
 
   useEffect(() => {
@@ -45,7 +54,7 @@ const TableContainer = () => {
   }, [])
 
   useInterval(() => {
-    const allSuccess = data.every(item => item.status === "success")
+    const allSuccess = data.every(item => item.status === SUCCESS)
     if(!allSuccess) fetchData() 
     else setDelay(null)
   }, delay)
@@ -56,7 +65,6 @@ const TableContainer = () => {
         <Table
           columns={statusColumn}
           data={React.useMemo(() => data, [data])}
-
         />
       </Styles>
       <ClearButton />

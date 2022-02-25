@@ -13,6 +13,9 @@ const getStatusURI = `${baseURL}/get_status`
 const getResultURI = `${baseURL}/get_result`
 const interval = 5000
 
+export const SUCCESS = 'success'
+export const DISTRICT = 'District'
+
 export {
   defaultFormValues,
   formOptions,
